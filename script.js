@@ -20,20 +20,6 @@ const searchButton = document.getElementById("searchButton");
 
 const searchInput = document.getElementById("searchInput");
 
-const getSuperHero = (id, name) => {
-	// name 👉 base_url/search/batman
-	// json.results[0].image.url
-	// id: 👉 base_url/id
-	// json.image.url
-	fetch(`${BASE_URL}/${id}`)
-		.then((response) => response.json())
-		.then((json) => {
-			console.log(json.powerstats);
-			const superHero = json;
-			showHeroInfo(superHero);
-		});
-};
-
 const showHeroInfo = (character) => {
 	const name = `<h2>${character.name}</h2>`;
 
@@ -53,16 +39,16 @@ const showHeroInfo = (character) => {
     </div>`;
 };
 
-// <p>💪 Strength: ${json.powerstats.strength}</p><p>🧠 Intelligence: ${json.powerstats.intelligence}</p><p>🧠 Combat: ${json.powerstats.intelligence}</p><p>🧠 Speed: ${json.powerstats.intelligence}</p><p>🧠 Durability: ${json.powerstats.intelligence}</p>
+const getSuperHero = (id) => {
+	fetch(`${BASE_URL}/${id}`)
+		.then((response) => response.json())
+		.then((json) => showHeroInfo(json));
+};
 
 const getSearchSuperHero = (name) => {
-	console.log(searchInput.value);
 	fetch(`${BASE_URL}/search/${name}`)
 		.then((response) => response.json())
-		.then((json) => {
-			const hero = json.results[0];
-			showHeroInfo(hero);
-		});
+		.then((json) => showHeroInfo(json.results[0]));
 };
 
 const randomHero = () => {
